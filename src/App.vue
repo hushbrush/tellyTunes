@@ -12,14 +12,17 @@
   
   <style>
   /* Global styles or Tailwind imports can go here */
+  html{
+    background-color: #121212;
+    color: #121212;
+  }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-
-    .scrolly-container {
+    color: #ccc
+  }
+.scrolly-container {
   display: flex;
 }
 .graphic-panel {
@@ -37,6 +40,6 @@
   margin-bottom: 200px; /* so you have room to scroll */
 }
 
-  }
+  
   </style>
   
