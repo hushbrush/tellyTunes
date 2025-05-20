@@ -1,0 +1,15 @@
+# === node ===
+node_modules/
+dist/
+.vite/
+*.log
+
+# === system ===
+.DS_Store
+
+# === build artifacts ===
+*.local
+*.env
+
+# === optional ===
+
