@@ -1,4 +1,4 @@
-<<template>
+<template>
   <div class="step-content" :class="{ active }">
     <h2>{{ title }}</h2>
     <p v-if="content">{{ content }}</p>
@@ -19,10 +19,15 @@ defineProps({
   margin-bottom: 200px;  /* give space for scrolling */
 }
 .step-content h2 {
-  opacity: 0.3;
-  transition: opacity .3s;
-}
-.step-content[active] h2 {
   opacity: 1;
+}
+
+.p{
+  .jersey-25-regular {
+  font-family: "Jersey 25", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 }
 </style>

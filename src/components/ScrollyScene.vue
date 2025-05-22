@@ -2,7 +2,7 @@
 <template>
   <div class="intro-block">
     <!-- 🟢 Leave this block untouched -->
-    <h1>TellyTunes Chronicles</h1>
+    <h1>The TellyTune Chronicles</h1>
     <h3>Mapping Genre Patterns and Trends in Television Themes</h3>
     <p class="introduction">
       There’s something quietly magical about a TV theme: a ten-second jingle can transport you back to Saturday morning cartoons or late-night dramas. I’ve always been drawn to their odd textures—the tinny bleeps, the over-enthusiastic brass stabs, even the cringe-inducing synths of an ’80s sitcom. They feel at once chill and absurd, tiny time capsules of a show’s promise and era. It’s almost funny to think what the shows want to be perceived as, especially after the era has passed and the audience has already passed the judgement on what the show actually was.<br />
@@ -20,11 +20,6 @@
   :height="height"
   :highlight="steps[activeStepIndex].highlight"
 />
-
-
-
-
-
   </div>
 
   <!-- 🔴 Foreground scroll/text layer -->
@@ -69,7 +64,8 @@ window.addEventListener('resize', () => {
 
 
 onMounted(async () => {
-  const resp = await fetch('/data.json')
+  const resp = await fetch(import.meta.env.BASE_URL + 'data.json')
+
   rawData.value = await resp.json()
   loaded.value = true
 
@@ -114,29 +110,142 @@ const steps = [
   chart: null,
   data: null,
   highlight: { type: 'none' },
-  content: `Lets explore how different genres shaped the soundscape of television. Scroll on to dive into the clusters, trends, and weird synth crimes of TV past. There are {dataset.Stats.total} different jingles in this dataset, spanning from {datasetStats.minYear} to {datasetStats.maxYear}. The most common genre is {datasetStats.topGenre}.`
+  content: `Lets explore how different genres shaped the soundscape of television. Dive into the clusters, trends, and absurdity of TV past. 
+
+  There are 1133 different jingles in this dataset, spanning from 1950 to 2025. `
 },
 {
   id: 'cluster',
   title: '',
   chart: ClusterChart,
   data: clusterData,
-  highlight: { type: 'classical' } ,
+  // highlight: { type: 'cluster', label: NaN },
   content: `Let's look at the genres. You can hover over the circles to hear the tunes.`
 },
   
-  { id: 'cluster-callout', title: 'Hear the 80s synths', chart: ClusterChart, data: clusterData, highlight: { type: 'cluster', label: 'synth' } },
-  { id: 'sankey', title: 'Sankey', chart: SankeyChart, data: sankeyData, highlight: { type: 'none' } },
-  { id: 'sankey-callout', title: 'Reggae links', chart: SankeyChart, data: sankeyData, highlight: { type: 'flow', source: 'reggae', target: 'Cartoon' } },
-  { id: 'decade', title: 'By Decade', chart: StackedBarChart, data: barData, highlight: { type: 'none' } },
-  { id: 'decade-callout', title: 'Disco’s moment in the sun', chart: StackedBarChart, data: barData, highlight: { type: 'bar', key: 'disco' } },
+{
+  id: 'cluster2',
+  title: '',
+  chart: ClusterChart,
+  data: clusterData,
+  highlight: { type: 'cluster', label: 'Cartoon' },
+  content: `Now, let's look at the Cartoons. `
+},
+{
+  id: 'cluster3',
+  title: '',
+  chart: ClusterChart,
+  data: clusterData,
+  highlight: { type: 'cluster', label: 'Sports' },
+  content: `Notice how that's a wee bit different in distribution from Sports?`
+},
+{
+  id: 'cluster4',
+  title: '',
+  chart: ClusterChart,
+  data: clusterData,
+  
+  highlight: { type: 'cluster', label: 'Legal Drama' },
+  content: `Or, say, Legal Dramas?`
+},
+{
+  id: 'Sankey',
+  title: '',
+  chart: SankeyChart,
+  data: sankeyData,
+  content: `Let's Explore this in a bit more detail. Here is the flow from Tune Genres to Television Show Genres. You can interact with the bars to see the different flows.`
+},
+{
+  id: 'Sankey1',
+  title: '',
+  chart: SankeyChart,
+  data: sankeyData,
+  highlight: { type: 'sankey', label: ['Classical'] },
+  content: `Clearly, Classical is, well, classic.`
+},
+{
+  id: 'Sankey2',
+  title: '',
+  chart: SankeyChart,
+  data: sankeyData,
+  highlight: { type: 'sankey', label: ['Jazz'] },
+  content: `A large chunk of Jazz goes into Game Shows`
+},
+{
+  id: 'Sankey25',
+  title: '',
+  chart: SankeyChart,
+  data: sankeyData,
+  highlight: { type: 'sankey', label: ['Metal'] },
+  content: `And a large chunk of Metal goes into Sports`
+},
+{
+  id: 'Sankey3',
+  title: '',
+  chart: SankeyChart,
+  data: sankeyData,
+  highlight: { type: 'sankey', label: ['Disco', 'Reggae', 'Hiphop'] },
+  content: `Disco, Reggae and Hiphop have nearly identical flows`
+},
+
+{
+  id: 'decade1',
+  title: '',
+  chart: StackedBarChart,
+  data: barData,
+  highlight: { type: 'none' },
+  content: `But wait, it's not just about the TV Show Genre. Here's a look into the decade-wise distribution of the genres.`
+},
+{
+  id: 'decade5',
+  title: '',
+  chart: StackedBarChart,
+  data: barData,
+  highlight: { type: 'bar', label: ['Classical'] },
+  content: `Classical is not as classic in time.`},
+  {
+  id: 'decade3',
+  title: '',
+  chart: StackedBarChart,
+  data: barData,
+  highlight: { type: 'bar', label: ['Rock', 'Blues'] },
+  content: `Rock and Blues overtook Classical in the 90s`
+},
+{
+  id: 'decade2',
+  title: '',
+  chart: StackedBarChart,
+  data: barData,
+  highlight: { type: 'bar', label: ['Disco'] },
+  content: `Disco had a bit of a decade-delayed moment in the 80s.`
+},
+
+{
+  id: 'decade4',
+  title: '',
+  chart: StackedBarChart,
+  data: barData,
+  highlight: { type: 'bar', label: ['Jazz'] },
+  content: `And Jazz seems to be regaining popularity today`
+},
+
+{
+  id: 'Outro',
+  title: '',
+  chart: null,
+  data: null,
+  highlight: { type: 'none' },
+  content: `That's all, folks. See you next time!`
+},
 ]
 
 function transformToCluster(data) {
   const nodes = data.map((d, i) => ({
     id: i,
     label: d.main_label || 'Unknown',
-    confidence: +d.top_1_confidence || 1
+    show_genre: d.show_genre || 'Unknown',
+    confidence: +d.top_1_confidence || 1,
+    name: d.identifier || 'Unknown'
   }))
   return { nodes, links: [] }
 }
@@ -243,7 +352,7 @@ font-style: normal; */
   .introduction{
     width: 45%;
     color: #ccc;
-    font-family:'space-grotesk', sans-serif;
+    font-family:'jersey-25-regular', sans-serif;
     font-size: large;
   }
 
@@ -281,6 +390,7 @@ font-style: normal; */
   position: relative;
   z-index: 2;
   padding: 10vh 5vw;
+  pointer-events: none;
 }
 .steps-panel {
   display: flex;
@@ -295,21 +405,16 @@ font-style: normal; */
   margin: 0 auto;
   color: #000;
   margin-bottom: 100vh;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  font-family: 'space-grotesk', sans-serif;
+  font-family:'jersey-25-regular', sans-serif;
   transition: transform 0.3s ease;
   font-size: 1.2rem;
   text-align: center;
+  pointer-events: auto;
 }
 
-.step-content.active {
-  font-weight: bold;
-}
-.step-content:hover {
-  transform: scale(1.01);
-}
 
   </style>

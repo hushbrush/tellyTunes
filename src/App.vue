@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+      <div id="tooltip" class="tooltip" style="display: none;"></div>
       <!-- The ScrollyScene component handles the scrolling steps and chart swapping -->
       <ScrollyScene />
     </div>
@@ -17,7 +18,7 @@
     color: #121212;
   }
   #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-family: "Jersey 25", sans-serif;
     margin: 0;
     padding: 0;
     color: #ccc
@@ -38,8 +39,20 @@
 }
 .step-content {
   margin-bottom: 200px; /* so you have room to scroll */
-}
 
+}
+.tooltip{
+  position: absolute;
+  background: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  pointer-events: none;
+  color: #000;
+  font-family: "Jersey 25", sans-serif;
+  font-size: 30px;
+  z-index: 5;
+
+}
   
   </style>
   
