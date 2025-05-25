@@ -1,14 +1,12 @@
 <!-- ScrollyScene.vue -->
 <template>
-  <div class="intro-block">
-    <!-- 🟢 Leave this block untouched -->
-    <h1>The TellyTune Chronicles</h1>
-    <h3>Mapping Genre Patterns and Trends in Television Themes</h3>
-    <p class="introduction">
-      There’s something quietly magical about a TV theme: a ten-second jingle can transport you back to Saturday morning cartoons or late-night dramas. I’ve always been drawn to their odd textures—the tinny bleeps, the over-enthusiastic brass stabs, even the cringe-inducing synths of an ’80s sitcom. They feel at once chill and absurd, tiny time capsules of a show’s promise and era. It’s almost funny to think what the shows want to be perceived as, especially after the era has passed and the audience has already passed the judgement on what the show actually was.<br />
-     
-    </p>
+ <div class="intro-block">
+  <div class="intro-content">
+    <h3>Explore the television tunes by their genre and usage</h3>
+    <button class="unmute-button">🔈 Click to Unmute 🔊</button>
   </div>
+</div>
+
 
   <!-- 🔵 Background graphic layer -->
   <div class="graphic-bg">
@@ -36,8 +34,9 @@
 />
 
 </div>
-
+    <div class="extro" v-if="activeStepIndex === steps.length - 1"><h2>Thanks for scrolling!</h2></div>
   </div>
+  
   <div v-else>Loading data…</div>
 </template>
 
@@ -74,8 +73,13 @@ onMounted(async () => {
     .setup({ step: '.step-content', offset: 0.5 })
     .onStepEnter(({ index }) => activeStepIndex.value = index)
     .onStepExit(({ index, direction }) => {
-      if (direction === 'up') activeStepIndex.value = index - 1
-    })
+  if (direction === 'down' && index === steps.length - 1) {
+    activeStepIndex.value = steps.length // ✅ trigger extro
+  } else if (direction === 'up') {
+    activeStepIndex.value = index - 1
+  }
+})
+
 })
 
 const datasetStats = computed(() => {
@@ -120,7 +124,7 @@ const steps = [
   chart: ClusterChart,
   data: clusterData,
   // highlight: { type: 'cluster', label: NaN },
-  content: `Let's look at the genres. You can hover over the circles to hear the tunes.`
+  content: `Let's look at the genres. You can hover over the boxes to hear the tunes.`
 },
   
 {
@@ -229,14 +233,6 @@ const steps = [
   content: `And Jazz seems to be regaining popularity today`
 },
 
-{
-  id: 'Outro',
-  title: '',
-  chart: null,
-  data: null,
-  highlight: { type: 'none' },
-  content: `That's all, folks. See you next time!`
-},
 ]
 
 function transformToCluster(data) {
@@ -284,75 +280,38 @@ function transformToBar(data) {
   body{
     background: #2b2b2b;
     color: #2b2b2b;
+
   }
 .intro-block {
-  /* background: url('/tv-crt.jpg') center center / cover no-repeat; */
-  /* filter: contrast(1.1) brightness(1.1) saturate(1.1); */
-  border-radius: 70px;
-  box-shadow: inset 0 0 80px rgba(55, 80, 65, 0.1);
-  transform: scale(1.01) perspective(800px) rotateX(1deg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 80vh;
-  color: #2b2b2b;
-  margin: 80px;
+  background-image: url('public/intro_bg.png');
+
+  background-repeat: no-repeat;
+  background-position: 50% 36%;
+  width: 1400px;
+  height: 800px;
+  border-radius: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 70px;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(#386369, #2b3a40);
-  font-family: "amboy-inline", sans-serif;
- 
-  /* font-family: 'Bungee', sans-serif; */
 
-  
-/* font-weight: 400;
-font-style: normal; */
+  font-family:'Jersey 25', sans-serif;
+}
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60vh;
 }
 
 
 
-.intro-block::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.15) 0px,
-    rgba(0, 0, 0, 0.15) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-  z-index: 2;
-  pointer-events: none;
-}
-
-
-.intro-block h1 {
-  color: #c2ffd2;
-  font-size: 4rem;
-  margin: 0;
-  text-shadow: 2px 2px 0 #ffffff5f;
-  z-index: 2;
-  font-family: "amboy-inline", sans-serif;
-
-}
-
-.intro-block h3 {
-  animation: flicker 1.2s infinite;
-  font-size: 1.5rem;
-  color: #ccc;
-  font-weight: normal;
-  margin-top: 1rem;
-  z-index: 2;
-}
 
   .introduction{
     width: 45%;
-    color: #ccc;
-    font-family:'jersey-25-regular', sans-serif;
+    color: #000000;
+    font-family:'Jersey 25', sans-serif;
     font-size: large;
   }
 
@@ -361,14 +320,7 @@ font-style: normal; */
   0% { transform: translate(-50%, 0); }
   100% { transform: translate(-50%, 10px); }
 }
-.intro-block::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
-  pointer-events: none;
-  z-index: 2;
-}
+
 @keyframes flicker {
   0%   { opacity: 1; }
   48%  { opacity: 0.98; }
@@ -401,7 +353,7 @@ font-style: normal; */
 }
 
 .step-content {
-  width: 40%;
+  width: 70%;
   margin: 0 auto;
   color: #000;
   margin-bottom: 100vh;
@@ -409,12 +361,67 @@ font-style: normal; */
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  font-family:'jersey-25-regular', sans-serif;
+  font-family:'Jersey 25', sans-serif;
+  letter-spacing: 0.8px;
+  line-height: 30px;
   transition: transform 0.3s ease;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   text-align: center;
   pointer-events: auto;
 }
+.extro{
+  background-image: url('public/extro.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 
+
+  width: 120vh;
+  height:  90vh;
+  border-radius: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 70px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* .intro-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+} */
+
+
+
+h3{
+  font-family:'Jersey 25', sans-serif;
+  font-size: 40px;
+  color: #a0a0a0;
+  text-align: center; 
+  letter-spacing: 0.7px;
+  
+}
+
+.unmute-button {
+
+  padding: 10px 20px;
+  font-size: 22px;
+  font-family: 'Jersey 25', sans-serif;
+  background-color: #fff;
+  color: #f028f7;
+  border-radius: 8px;
+  border-width: 3 px;
+  border-color: #ffe042;
+  cursor: pointer
+
+}
+
+.unmute-button:hover {
+  background-color: #e21111;
+}
 
   </style>

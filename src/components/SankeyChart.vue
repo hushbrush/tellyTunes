@@ -150,5 +150,6 @@ watch(() => [props.data, props.highlight], renderSankey)
 .sankey-chart {
   width: 100%;
   height: 100%;
+  transform: scale(0.9);
 }
 </style>

@@ -34,7 +34,7 @@ function renderCluster() {
     '#ff5e7c', '#baf4f7', '#e8c890', '#dbdbdb', '#ffe042', 
    '#8589f2',  '#fa89f2', '#b561ed', '#b8ed68', '#f028f7',
   ]
-  const r = 7
+  const r = 20
 
 
   const tooltip = d3.select('#tooltip')
@@ -44,10 +44,11 @@ function renderCluster() {
   // draw circles + native tooltip + audio on hover
   const vm = { } // dummy for closure
   const nodeElems = svg.append('g')
-    .selectAll('circle')
+    .selectAll('rect')
     .data(nodes)
-    .join('circle')
-      .attr('r', r)
+    .join('rect')
+      .attr('width', r)
+      .attr('height', r)
       .attr('fill', d =>( d.label === 'none' ? '#fff' : color[clusters.indexOf(d.label)]))
       .attr('stroke', '#333')
       .attr('stroke-width', 1)
@@ -64,7 +65,7 @@ function renderCluster() {
         return 0.1;
       })
 
-    // …your svg.append('g').selectAll('circle').data(nodes).join('circle')…
+    // …your svg.append('g').selectAll('rect').data(nodes).join('rect')…
       .on('mouseover', function(event, d) {
         // `this` is the <circle> element
         
@@ -149,17 +150,17 @@ function renderCluster() {
     .force('x', d3.forceX(d => {
       const c = clusterCenters.find(c=>c.label===d.label)
       return c ? c.x : props.width/2
-    }).strength(0.2))
+    }).strength(0.1))
     .force('y', d3.forceY(d => {
       const c = clusterCenters.find(c=>c.label===d.label)
       return c ? c.y : props.height/2
-    }).strength(0.2))
-    .force('collide', d3.forceCollide(r+1))
-    .force('charge', d3.forceManyBody().strength(-10))
+    }).strength(0.1))
+    .force('collide', d3.forceCollide(r-1))
+    .force('charge', d3.forceManyBody().strength(10))
     .on('tick', () => {
-      svg.selectAll('circle')
-        .attr('cx', d => d.x)
-        .attr('cy', d => d.y)
+      svg.selectAll('rect')
+        .attr('x', d => d.x+r)
+        .attr('y', d => d.y+r)
     })
 }
 
@@ -172,6 +173,7 @@ watch(() => props.highlight, renderCluster)
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  transform: scale(0.9);
 
   /* center the svg inside this div */
   display: block;       /* so margin auto works */

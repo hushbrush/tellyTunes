@@ -112,7 +112,7 @@ function renderBar() {
   // make axes visible
   ;[xAxisG, yAxisG].forEach(axisG => {
     axisG.selectAll('path, line').attr('stroke', 'white')
-    axisG.selectAll('text').attr('fill', 'white') .style('font-size','20px').style('font-family','Jersey 25')
+    axisG.selectAll('text').attr('fill', 'white') .style('font-size','20px').style('font-family','Jersey 25, sans-serif')
   })
 }
 
@@ -124,6 +124,7 @@ watch(() => [props.data, props.highlight], renderBar)
 .bar-chart-container {
   width: 100%;
   overflow: visible;
+  transform: scale(0.9)
 }
 svg {
   font-family: sans-serif;
