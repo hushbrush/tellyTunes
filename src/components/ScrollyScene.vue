@@ -3,7 +3,13 @@
  <div class="intro-block">
   <div class="intro-content">
     <h3>Explore the television tunes by their genre and usage</h3>
-    <button class="unmute-button">🔈 Click to Unmute 🔊</button>
+      <button
+    class="unmute-button"
+    @click="toggleMute"
+  >
+    <!-- switch label based on state -->
+    {{ isMuted ? '🔇 Mute' : '🔈 Click to Unmute 🔊' }}
+  </button>
   </div>
 </div>
 
@@ -52,6 +58,12 @@ import StepContent from './StepContent.vue'
 const rawData = ref(null)
 const loaded = ref(false)
 const activeStepIndex = ref(0)
+
+const isMuted = ref(false)
+function toggleMute() {
+  isMuted.value = !isMuted.value
+  console.log('mute toggled:', isMuted.value) 
+}
 
 const width = ref(window.innerWidth)
 const height = ref(window.innerHeight)
@@ -387,15 +399,6 @@ function transformToBar(data) {
   z-index: 1;
 }
 
-/* .intro-block {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-} */
-
-
 
 h3{
   font-family:'Jersey 25', sans-serif;
@@ -406,7 +409,7 @@ h3{
   
 }
 
-.unmute-button {
+/* .unmute-button {
 
   padding: 10px 20px;
   font-size: 22px;
@@ -416,12 +419,38 @@ h3{
   border-radius: 8px;
   border-width: 3 px;
   border-color: #ffe042;
-  cursor: pointer
+  cursor: pointer;
 
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+} */
+
+
+.unmute-button {
+  /* bigger hit-area */
+  padding: 16px 32px;
+  font-size: 1.6rem;
+  font-family: 'Jersey 25', sans-serif;
+
+  /* solid border in one shorthand call */
+  border: 3px solid #ffe042;
+  border-radius: 8px;
+
+  background-color: #fff;
+  color: #f028f7;
+  cursor: pointer;
+
+  /* smooth transforms and shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .unmute-button:hover {
-  background-color: #e21111;
+  transform: scale(1.05);
+  box-shadow:
+    0 0 8px rgba(255, 224, 66, 0.7),
+    0 0 16px rgba(255, 224, 66, 0.5);
 }
+
+
 
   </style>
